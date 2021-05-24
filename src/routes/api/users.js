@@ -1,42 +1,44 @@
-const express = require("express");
 const bcrypt = require("bcryptjs");
-const User = require("../../models/User");
+const express = require("express");
 const jwt = require("jsonwebtoken");
-const { secretOrKey } = require("../../constants");
 const passport = require("passport");
+const { secretOrKey } = require("../../constants");
+const User = require("../../models/User");
+const validateRegisterInput = require("../../validation/register");
+const validateLoginInput = require("../../validation/login");
 
 const router = express.Router();
 
 router.get("/test", (req, res) => res.json({ msg: "This is the users route" }));
 
-const validateRegisterInput = ({ email, handle, password }) => {
-  const errors = [];
+// const validateRegisterInput = ({ email, handle, password }) => {
+//   const errors = [];
 
-  if (!email) {
-    errors.push("No email provided");
-  }
+//   if (!email) {
+//     errors.push("No email provided");
+//   }
 
-  if (!handle) {
-    errors.push("No handle provided");
-  }
+//   if (!handle) {
+//     errors.push("No handle provided");
+//   }
 
-  if (!password) {
-    errors.push("No password provided");
-  }
+//   if (!password) {
+//     errors.push("No password provided");
+//   }
 
-  if (!/^\S+@\S+\.\S+$/.test(email)) {
-    errors.push("Not a valid email");
-  }
+//   if (!/^\S+@\S+\.\S+$/.test(email)) {
+//     errors.push("Not a valid email");
+//   }
 
-  if (password.length < 8) {
-    errors.push("Password too short");
-  }
+//   if (password.length < 8) {
+//     errors.push("Password too short");
+//   }
 
-  return {
-    errors,
-    isValid: errors.length === 0,
-  };
-};
+//   return {
+//     errors,
+//     isValid: errors.length === 0,
+//   };
+// };
 
 router.post("/register", (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
@@ -88,26 +90,28 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
+  const { errors, isValid } = validateLoginInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   const email = req.body.email;
   const password = req.body.password;
 
   User.findOne({ email }).then((user) => {
     if (!user) {
-      return res.status(404).json({ email: "This user does not exist" });
+      errors.email = "User not found";
+      return res.status(404).json(errors);
     }
 
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (isMatch) {
-        const payload = { id: user.id, handle: user.handle };
-
-        jwt.sign(payload, secretOrKey, { expiresIn: 3600 }, (err, token) => {
-          res.json({
-            success: true,
-            token: "Bearer " + token,
-          });
-        });
+        res.json({ msg: "Success" });
       } else {
-        return res.status(400).json({ password: "Incorrect password" });
+        // And here:
+        errors.password = "Incorrect password";
+        return res.status(400).json(errors);
       }
     });
   });
