@@ -1,98 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
 
-const SignupForm = React.memo(() => {
-  const constructor = (props) => {
-    super(props);
-    this.state = {
-      email: "",
-      handle: "",
-      password: "",
-      password2: "",
-      errors: {},
-    };
+const SignupForm = React.memo(({ signup }) => {
+  const [email, setEmail] = useState("");
+  const [handle, setHandle] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.clearedErrors = false;
-  };
+  // const componentWillReceiveProps = (nextProps) => {
+  //   if (nextProps.signedIn === true) {
+  //     history.push("/login");
+  //   }
+  // };
 
-  const componentWillReceiveProps = (nextProps) => {
-    if (nextProps.signedIn === true) {
-      this.props.history.push("/login");
-    }
-
-    this.setState({ errors: nextProps.errors });
-  };
-
-  const update = (field) => {
-    return (e) =>
-      this.setState({
-        [field]: e.currentTarget.value,
-      });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
     let user = {
-      email: this.state.email,
-      handle: this.state.handle,
-      password: this.state.password,
-      password2: this.state.password2,
+      email: email,
+      handle: handle,
+      password: password,
+      password2: password2,
     };
 
-    this.props.signup(user, this.props.history);
+    signup(user);
   };
 
-  const renderErrors = () => {
-    return (
-      <ul>
-        {Object.keys(this.state.errors).map((error, i) => (
-          <li key={`error-${i}`}>{this.state.errors[error]}</li>
-        ))}
-      </ul>
-    );
-  };
-
-  const render = () => {
-    return (
-      <div className="signup-form-container">
-        <form onSubmit={this.handleSubmit}>
-          <div className="signup-form">
-            <br />
-            <input
-              type="text"
-              value={this.state.email}
-              onChange={this.update("email")}
-              placeholder="Email"
-            />
-            <br />
-            <input
-              type="text"
-              value={this.state.handle}
-              onChange={this.update("handle")}
-              placeholder="Handle"
-            />
-            <br />
-            <input
-              type="password"
-              value={this.state.password}
-              onChange={this.update("password")}
-              placeholder="Password"
-            />
-            <br />
-            <input
-              type="password"
-              value={this.state.password2}
-              onChange={this.update("password2")}
-              placeholder="Confirm Password"
-            />
-            <br />
-            <input type="submit" value="Submit" />
-            {this.renderErrors()}
-          </div>
-        </form>
-      </div>
-    );
-  };
+  return (
+    <div className="signup-form-container">
+      <form onSubmit={handleSubmit}>
+        <div className="signup-form">
+          <input
+            type="text"
+            value={email}
+            onChange={setEmail(email)}
+            placeholder="Email"
+          />
+          <input
+            type="text"
+            value={handle}
+            onChange={setHandle(handle)}
+            placeholder="Handle"
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={setPassword(password)}
+            placeholder="Password"
+          />
+          <input
+            type="password"
+            value={password2}
+            onChange={setPassword2(password2)}
+            placeholder="Confirm Password"
+          />
+          <input type="submit" value="Submit" />
+        </div>
+      </form>
+    </div>
+  );
 });
 
 export default SignupForm;

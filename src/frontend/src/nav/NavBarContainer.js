@@ -1,10 +1,12 @@
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { logout } from "../actions/sessionActions";
 
-import NavBar from "./NavBar";
+import LoginForm from "../session/LoginForm";
 
-const mapStateToProps = (state) => ({
-  loggedIn: state.session.isAuthenticated,
-});
+const NavBarContainer = ({ logout }) => {
+  const loggedIn = useSelector((state) => state.session.isAuthenticated);
 
-export default connect(mapStateToProps, { logout })(NavBar);
+  return <LoginForm loggedIn={loggedIn} logout={logout} />;
+};
+
+export default NavBarContainer;

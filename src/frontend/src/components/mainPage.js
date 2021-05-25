@@ -1,14 +1,14 @@
 import React from "react";
 
-class MainPage extends React.Component {
-  render() {
+const MainPage = () => {
+  return () => {
     return (
       <div>
         <h1>A Twitter Clone</h1>
         <footer>Copyright &copy 2021</footer>
       </div>
     );
-  }
-}
+  };
+};
 
 export default MainPage;

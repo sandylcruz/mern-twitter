@@ -1,17 +1,15 @@
-import { connect } from "react-redux";
-import { login } from "../actions/sessionActions";
+import { useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { login as loginAction } from "../actions/sessionActions";
+
 import LoginForm from "./LoginForm";
 
-const mapStateToProps = (state) => {
-  return {
-    errors: state.errors.session,
-  };
+const LoginFormContainer = (props) => {
+  const dispatch = useDispatch();
+
+  const login = useCallback((user) => dispatch(loginAction(user)), [dispatch]);
+
+  return <LoginForm props={props} login={login} />;
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    login: (user) => dispatch(login(user)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default LoginFormContainer;

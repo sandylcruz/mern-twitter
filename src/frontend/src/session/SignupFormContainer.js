@@ -1,18 +1,27 @@
-import { connect } from "react-redux";
-import { signup } from "../actions/sessionActions";
+import { useDispatch } from "react-redux";
+
+import { signup as signupAction } from "../actions/sessionActions";
 import SignupForm from "./SignupForm";
 
-const mapStateToProps = (state) => {
-  return {
-    signedIn: state.session.isSignedIn,
-    errors: state.errors.session,
-  };
+const SignupFormContainer = () => {
+  const signedIn = state.session.isSignedIn;
+  const dispatch = useDispatch();
+  const signup = dispatch(signupAction(user));
+
+  return <SignupForm signup={signup} />;
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    signup: (user) => dispatch(signup(user)),
-  };
-};
+// const mapStateToProps = (state) => {
+//   return {
+//     signedIn: state.session.isSignedIn,
+//     errors: state.errors.session,
+//   };
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignupForm);
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     signup: (user) => dispatch(signup(user)),
+//   };
+// };
+
+export default SignupFormContainer;
