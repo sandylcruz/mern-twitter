@@ -25,6 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "/login";
     }
   } else {
+    const store = configureStore();
+
     const root = document.getElementById("root");
 
     ReactDOM.render(<Root store={store} />, root);
