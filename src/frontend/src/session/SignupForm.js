@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
-const SignupForm = React.memo(({ signup }) => {
+const SignupForm = React.memo(({ processForm }) => {
   const [email, setEmail] = useState("");
   const [handle, setHandle] = useState("");
   const [password, setPassword] = useState("");
@@ -12,17 +12,36 @@ const SignupForm = React.memo(({ signup }) => {
   //   }
   // };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    let user = {
-      email: email,
-      handle: handle,
-      password: password,
-      password2: password2,
-    };
+  const updateEmail = useCallback((event) => {
+    setEmail(event.currentTarget.value);
+  }, []);
 
-    signup(user);
-  };
+  const updateHandle = useCallback((event) => {
+    setHandle(event.currentTarget.value);
+  }, []);
+
+  const updatePassword = useCallback((event) => {
+    setPassword(event.currentTarget.value);
+  }, []);
+
+  const updatePassword2 = useCallback((event) => {
+    setPassword2(event.currentTarget.value);
+  }, []);
+
+  const handleSubmit = useCallback(
+    (event) => {
+      event.preventDefault();
+      let user = {
+        email: email,
+        handle: handle,
+        password: password,
+        password2: password2,
+      };
+
+      processForm(user);
+    },
+    [email, handle, password, password2, processForm]
+  );
 
   return (
     <div className="signup-form-container">
@@ -31,25 +50,25 @@ const SignupForm = React.memo(({ signup }) => {
           <input
             type="text"
             value={email}
-            onChange={setEmail(email)}
+            onChange={updateEmail(email)}
             placeholder="Email"
           />
           <input
             type="text"
             value={handle}
-            onChange={setHandle(handle)}
+            onChange={updateHandle(handle)}
             placeholder="Handle"
           />
           <input
             type="password"
             value={password}
-            onChange={setPassword(password)}
+            onChange={updatePassword(password)}
             placeholder="Password"
           />
           <input
             type="password"
             value={password2}
-            onChange={setPassword2(password2)}
+            onChange={updatePassword2(password2)}
             placeholder="Confirm Password"
           />
           <input type="submit" value="Submit" />

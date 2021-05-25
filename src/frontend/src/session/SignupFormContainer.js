@@ -1,14 +1,22 @@
+import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 
 import { signup as signupAction } from "../actions/sessionActions";
 import SignupForm from "./SignupForm";
 
-const SignupFormContainer = () => {
-  const signedIn = state.session.isSignedIn;
+const SignupFormContainer = (props) => {
+  const signedIn = isSignedIn;
   const dispatch = useDispatch();
   const signup = dispatch(signupAction(user));
 
-  return <SignupForm signup={signup} />;
+  const processForm = useCallback(
+    (user) => {
+      dispatch(signup(user));
+    },
+    [dispatch, signup]
+  );
+
+  return <SignupForm {...props} processForm={processForm} formType={signup} />;
 };
 
 // const mapStateToProps = (state) => {
