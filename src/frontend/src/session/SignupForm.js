@@ -6,12 +6,6 @@ const SignupForm = React.memo(({ processForm }) => {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
 
-  // const componentWillReceiveProps = (nextProps) => {
-  //   if (nextProps.signedIn === true) {
-  //     history.push("/login");
-  //   }
-  // };
-
   const updateEmail = useCallback((event) => {
     setEmail(event.currentTarget.value);
   }, []);
@@ -50,25 +44,25 @@ const SignupForm = React.memo(({ processForm }) => {
           <input
             type="text"
             value={email}
-            onChange={updateEmail(email)}
+            onChange={updateEmail}
             placeholder="Email"
           />
           <input
             type="text"
             value={handle}
-            onChange={updateHandle(handle)}
+            onChange={updateHandle}
             placeholder="Handle"
           />
           <input
             type="password"
             value={password}
-            onChange={updatePassword(password)}
+            onChange={updatePassword}
             placeholder="Password"
           />
           <input
             type="password"
             value={password2}
-            onChange={updatePassword2(password2)}
+            onChange={updatePassword2}
             placeholder="Confirm Password"
           />
           <input type="submit" value="Submit" />

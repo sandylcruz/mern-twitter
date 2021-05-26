@@ -1,10 +1,8 @@
-import React, { Component } from "react";
-import { Route, Redirect, withRouter } from "react-router-dom";
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
 
-export const Auth = React.memo(
-  ({ component: Component, path, loggedIn, exact }) => {
-    const loggedIn = state.session.isAuthenticated;
-
+export const AuthRoute = React.memo(
+  ({ component: Component, path, exact, loggedIn }) => {
     return (
       <Route
         path={path}
@@ -17,10 +15,8 @@ export const Auth = React.memo(
   }
 );
 
-export const Protected = React.memo(
+export const ProtectedRoute = React.memo(
   ({ component: Component, loggedIn, ...rest }) => {
-    const loggedIn = state.session.isAuthenticated;
-
     return (
       <Route
         {...rest}

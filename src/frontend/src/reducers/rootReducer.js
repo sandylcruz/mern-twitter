@@ -3,8 +3,8 @@ import errorsReducer from "./errorsReducer";
 import sessionReducer from "./sessionReducer";
 
 const RootReducer = combineReducers({
-  sessionReducer,
-  errorsReducer,
+  session: sessionReducer,
+  errors: errorsReducer,
 });
 
 export default RootReducer;

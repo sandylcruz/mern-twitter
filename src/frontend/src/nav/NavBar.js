@@ -11,6 +11,7 @@ const NavBar = ({ loggedIn, logout }) => {
     if (loggedIn) {
       return (
         <div>
+          <h1>Logged in</h1>
           <Link to={"/tweets"}>All Tweets</Link>
           <Link to={"/profile"}>Profile</Link>
           <Link to={"/new_tweet"}>Write a Tweet</Link>
@@ -20,6 +21,7 @@ const NavBar = ({ loggedIn, logout }) => {
     } else {
       return (
         <div>
+          <h1>Not logged in</h1>
           <Link to={"/signup"}>Signup</Link>
           <Link to={"/login"}>Login</Link>
         </div>

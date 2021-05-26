@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 const LoginForm = ({ login }) => {
   const [email, setEmail] = useState("");
@@ -15,6 +15,14 @@ const LoginForm = ({ login }) => {
     login(user);
   };
 
+  const updateEmail = useCallback((event) => {
+    setEmail(event.currentTarget.value);
+  }, []);
+
+  const updatePassword = useCallback((event) => {
+    setPassword(event.currentTarget.value);
+  }, []);
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -22,14 +30,14 @@ const LoginForm = ({ login }) => {
           <input
             type="text"
             value={email}
-            onChange={setEmail("email")}
+            onChange={updateEmail}
             placeholder="Email"
           />
           <br />
           <input
             type="password"
             value={password}
-            onChange={setPassword("password")}
+            onChange={updatePassword}
             placeholder="Password"
           />
           <br />

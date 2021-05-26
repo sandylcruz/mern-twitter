@@ -7,7 +7,7 @@ import MainPage from "./mainPage";
 import LoginFormContainer from "../session/LoginFormContainer";
 import SignupFormContainer from "../session/SignupFormContainer";
 
-const App = () => (
+const App = React.memo(() => (
   <div>
     <NavBarContainer />
     <Switch>
@@ -16,6 +16,6 @@ const App = () => (
       <AuthRoute exact path="/signup" component={SignupFormContainer} />
     </Switch>
   </div>
-);
+));
 
 export default App;
